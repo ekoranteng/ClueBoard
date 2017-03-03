@@ -2,6 +2,7 @@ package clueGame;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -11,6 +12,7 @@ import java.util.Set;
 public class Board {
 	private int numRows;
 	private int numColumns;
+	private static final Set<String> ACCEPTABLE_SUFFIXES = new HashSet<String>(Arrays.asList("Card", "Other"));
 	private static Board theInstance = new Board();
 	public static final int MAX_BOARD_SIZE = 100;
 	private BoardCell [][] board;
@@ -24,8 +26,13 @@ public class Board {
 		return theInstance;
 	}
 	
-	public void initialize(){
-		loadRoomConfig();
+	public void initialize() {
+		try {
+			loadRoomConfig();
+		} catch (BadConfigFormatException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		try {
 			loadBoardConfig();
 		} catch (BadConfigFormatException e) {
@@ -39,7 +46,7 @@ public class Board {
 		this.roomConfigFile = "src/data/" + roomConfigFile;
 	}
 	
-	public void loadRoomConfig() {
+	public void loadRoomConfig() throws BadConfigFormatException {
 		legend = new HashMap<Character, String>();
 		FileReader reader = null;
 		try {
@@ -52,6 +59,14 @@ public class Board {
 		while (in.hasNextLine()) {
 			String legendLine = in.nextLine();
 			Character letter = new Character(legendLine.charAt(0));
+			if (legendLine.substring(3).lastIndexOf(',') == -1) {
+				in.close();
+				throw new BadConfigFormatException(roomConfigFile);
+			}
+			if (!ACCEPTABLE_SUFFIXES.contains(legendLine.substring(legendLine.lastIndexOf(',') + 2))) {
+				in.close();
+				throw new BadConfigFormatException(roomConfigFile);
+			}
 			String roomName = legendLine.substring(3, legendLine.lastIndexOf(','));
 			legend.put(letter, roomName);
 		}
@@ -86,6 +101,10 @@ public class Board {
 		in = new Scanner(reader);
 		for (int i = 0; i < numRows; i++) {
 			String[] row = in.nextLine().split(",");
+			if (row.length != numColumns) {
+				in.close();
+				throw new BadConfigFormatException(boardConfigFile);
+			}
 			for (int j = 0; j < numColumns; j++) {
 				String cell = row[j];
 				char initial = cell.charAt(0);
@@ -105,6 +124,10 @@ public class Board {
 						doorDirec = DoorDirection.RIGHT;
 						break;
 					}
+				}
+				if (!legend.containsKey(initial)) {
+					in.close();
+					throw new BadConfigFormatException(boardConfigFile);
 				}
 				board[i][j] = new BoardCell(i, j, initial, doorDirec);
 			}

@@ -5,10 +5,9 @@ public class BadConfigFormatException extends Exception {
 	 */
 	private static final long serialVersionUID = 1L;
 	private String badFile;
-	public BadConfigFormatException(String badFile) throws Throwable {
+	public BadConfigFormatException(String badFile) {
 		super();
 		this.badFile = badFile;
-		System.out.println("Bad File");
-		printStackTrace();
+		System.out.println("Bad File: " + badFile);
 	}
 }
