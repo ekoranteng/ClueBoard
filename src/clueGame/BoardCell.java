@@ -18,7 +18,7 @@ public class BoardCell {
 	}
 	public boolean isWalkway() {return true;}
 	public boolean isRoom() {return true;}
-	public boolean isDoorway() {return true;}
+	public boolean isDoorway() {return (!(direction == DoorDirection.NONE));}
 	public DoorDirection getDoorDirection() {return direction;}
 	public int GetRow() {return row;}
 	public int GetColumn() {return column;}

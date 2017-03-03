@@ -75,6 +75,7 @@ public class Board {
 			numRows++;
 		}
 		in.close();
+		board = new BoardCell[numRows][numColumns];
 		FileReader reader = null;
 		try {
 			reader = new FileReader(boardConfigFile);

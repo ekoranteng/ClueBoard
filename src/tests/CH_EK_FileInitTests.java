@@ -13,7 +13,7 @@ import clueGame.DoorDirection;
 
 public class CH_EK_FileInitTests {
 	public static final int LEGEND_SIZE = 11;
-	public static final int NUM_ROWS = 22;
+	public static final int NUM_ROWS = 22	;
 	public static final int NUM_COLUMNS = 22;
 	// NOTE: I made Board static because I only want to set it up one 
 	// time (using @BeforeClass), no need to do setup before each test.
@@ -68,7 +68,7 @@ public class CH_EK_FileInitTests {
 		
 		room = board.getCellAt(4, 3);
 		assertTrue(room.isDoorway());
-		assertEquals(DoorDirection.LEFT, room.getDoorDirection());
+		assertEquals(DoorDirection.RIGHT, room.getDoorDirection());
 		
 		room = board.getCellAt(14, 5);
 		assertTrue(room.isDoorway());
@@ -93,7 +93,7 @@ public class CH_EK_FileInitTests {
 				if (cell.isDoorway())
 					numDoors++;
 			}
-		assertEquals(15, numDoors);
+		assertEquals(18, numDoors);
 	}
 	
 	// Test a few room cells to ensure the room initial is correct.
@@ -109,7 +109,7 @@ public class CH_EK_FileInitTests {
 			// Test a walkway
 			assertEquals('W', board.getCellAt(8, 2).getInitial());
 			// Test the closet
-			assertEquals('X', board.getCellAt(10,10).getInitial());
+			assertEquals('C', board.getCellAt(10,10).getInitial());
 		}
 		
 
