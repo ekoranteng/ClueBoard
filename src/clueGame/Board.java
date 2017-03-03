@@ -1,8 +1,11 @@
 package clueGame;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Scanner;
 import java.util.Set;
 
 public class Board {
@@ -27,11 +30,26 @@ public class Board {
 		calcAdjacencies();
 	}
 	public void setConfigFiles(String boardConfigFile, String roomConfigFile) {
-		this.boardConfigFile = boardConfigFile;
-		this.roomConfigFile = roomConfigFile;
+		this.boardConfigFile = "src/data/" + boardConfigFile;
+		this.roomConfigFile = "src/data/" + roomConfigFile;
 	}
 	public void loadRoomConfig(){
 		legend = new HashMap<Character, String>();
+		FileReader reader = null;
+		try {
+			reader = new FileReader(roomConfigFile);
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		Scanner in = new Scanner(reader);
+		while (in.hasNextLine()) {
+			String legendLine = in.nextLine();
+			Character letter = new Character(legendLine.charAt(0));
+			String roomName = legendLine.substring(3, legendLine.lastIndexOf(','));
+			legend.put(letter, roomName);
+		}
+		in.close();
 	}
 	
 	public void loadBoardConfig(){

@@ -42,7 +42,7 @@ public class CH_EK_FileInitTests {
 		assertEquals("Garage", legend.get('A'));
 		assertEquals("Hall", legend.get('H'));
 		assertEquals("Closet", legend.get('C'));
-		assertEquals("Walkway", legend.get('Z'));
+		assertEquals("Walkway", legend.get('W'));
 		
 	}
 	
