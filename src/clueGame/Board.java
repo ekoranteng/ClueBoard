@@ -26,7 +26,12 @@ public class Board {
 	
 	public void initialize(){
 		loadRoomConfig();
-		loadBoardConfig();
+		try {
+			loadBoardConfig();
+		} catch (BadConfigFormatException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		calcAdjacencies();
 	}
 	public void setConfigFiles(String boardConfigFile, String roomConfigFile) {
@@ -34,7 +39,7 @@ public class Board {
 		this.roomConfigFile = "src/data/" + roomConfigFile;
 	}
 	
-	public void loadRoomConfig(){
+	public void loadRoomConfig() {
 		legend = new HashMap<Character, String>();
 		FileReader reader = null;
 		try {
@@ -53,7 +58,23 @@ public class Board {
 		in.close();
 	}
 	
-	public void loadBoardConfig(){
+	public void loadBoardConfig() throws BadConfigFormatException{
+		FileReader getDimensions = null;
+		try {
+			getDimensions = new FileReader(boardConfigFile);
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		Scanner in = new Scanner(getDimensions);
+		String[] row1 = in.nextLine().split(",");
+		numColumns = row1.length;
+		numRows = 1;
+		while(in.hasNextLine()) {
+			in.nextLine();
+			numRows++;
+		}
+		in.close();
 		FileReader reader = null;
 		try {
 			reader = new FileReader(boardConfigFile);
@@ -61,12 +82,33 @@ public class Board {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		Scanner in = new Scanner(reader);
-		while(in.hasNextLine()){
-			System.out.println(in.nextLine());
+		in = new Scanner(reader);
+		for (int i = 0; i < numRows; i++) {
+			String[] row = in.nextLine().split(",");
+			for (int j = 0; j < numColumns; j++) {
+				String cell = row[j];
+				char initial = cell.charAt(0);
+				DoorDirection doorDirec = DoorDirection.NONE;
+				if (cell.length() == 2) {
+					switch(cell.charAt(1)) {
+					case 'U':
+						doorDirec = DoorDirection.UP;
+						break;
+					case 'D':
+						doorDirec = DoorDirection.DOWN;
+						break;
+					case 'L':
+						doorDirec = DoorDirection.LEFT;
+						break;
+					case 'R':
+						doorDirec = DoorDirection.RIGHT;
+						break;
+					}
+				}
+				board[i][j] = new BoardCell(i, j, initial, doorDirec);
+			}
 		}
 		in.close();
-		board = new BoardCell[MAX_BOARD_SIZE][MAX_BOARD_SIZE];
 	}
 	
 	public Map<Character, String> getLegend() {

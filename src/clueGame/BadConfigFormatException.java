@@ -9,5 +9,6 @@ public class BadConfigFormatException extends Exception {
 		super();
 		this.badFile = badFile;
 		System.out.println("Bad File");
+		printStackTrace();
 	}
 }
