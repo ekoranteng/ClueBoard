@@ -7,5 +7,5 @@ I, Living Room, Card
 G, Garden, Card
 A, Garage, Card
 H, Hall, Card
-C, Closet, Card
-W, Walkway, Card
+C, Closet, Other
+W, Walkway, Other
