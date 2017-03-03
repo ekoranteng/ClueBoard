@@ -33,6 +33,7 @@ public class Board {
 		this.boardConfigFile = "src/data/" + boardConfigFile;
 		this.roomConfigFile = "src/data/" + roomConfigFile;
 	}
+	
 	public void loadRoomConfig(){
 		legend = new HashMap<Character, String>();
 		FileReader reader = null;
@@ -53,8 +54,21 @@ public class Board {
 	}
 	
 	public void loadBoardConfig(){
+		FileReader reader = null;
+		try {
+			reader = new FileReader(boardConfigFile);
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		Scanner in = new Scanner(reader);
+		while(in.hasNextLine()){
+			System.out.println(in.nextLine());
+		}
+		in.close();
 		board = new BoardCell[MAX_BOARD_SIZE][MAX_BOARD_SIZE];
 	}
+	
 	public Map<Character, String> getLegend() {
 		return legend;
 	}
