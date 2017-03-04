@@ -157,8 +157,18 @@ public class Board {
 			}
 		}
 	}
-	
-	public void calcTargets(BoardCell cell, int pathLength){
+	public Set<BoardCell> getAdjList(int i, int j) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public Set<BoardCell> getTargets() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public void calcTargets(int i, int j, int k) {
+		// TODO Auto-generated method stub
 		
 	}
 	
