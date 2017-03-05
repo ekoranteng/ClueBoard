@@ -22,4 +22,7 @@ public class BoardCell {
 	public DoorDirection getDoorDirection() {return direction;}
 	public int GetRow() {return row;}
 	public int GetColumn() {return column;}
+	public String toString() {
+		return Integer.toString(row) + ", " + Integer.toString(column) + ", " + initial + "\n";
+	}
 }

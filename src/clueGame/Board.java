@@ -16,7 +16,7 @@ public class Board {
 	private static Board theInstance = new Board();
 	public static final int MAX_BOARD_SIZE = 100;
 	private BoardCell [][] board;
-	
+	private BoardCell startingCell;
 	private Map<Character,String> legend;
 	private Map<BoardCell, Set<BoardCell>> adjMatrix;
 	private Set<BoardCell> targets;
@@ -41,6 +41,7 @@ public class Board {
 			e.printStackTrace();
 		}
 		calcAdjacencies();
+		targets = new HashSet<BoardCell>();
 	}
 	public void setConfigFiles(String boardConfigFile, String roomConfigFile) {
 		this.boardConfigFile = "src/data/" + boardConfigFile;
@@ -197,13 +198,25 @@ public class Board {
 		return adjMatrix.get(board[i][j]);
 	}
 	public Set<BoardCell> getTargets() {
-		// TODO Auto-generated method stub
-		return null;
+		return targets;
 	}
 
-	public void calcTargets(int i, int j, int k) {
-		// TODO Auto-generated method stub
-		
+	public void calcTargets(int row, int column, int steps) {
+		targets.clear();
+		Set<BoardCell> visited = new HashSet<BoardCell>();
+		startingCell = board[row][column];
+		calcTargetsHelper(board[row][column], steps, visited);
+	}
+
+	private void calcTargetsHelper(BoardCell cell, int steps, Set<BoardCell> visited) {
+		if (steps == 0 || (cell.getDoorDirection() != DoorDirection.NONE && cell != startingCell)) {
+			targets.add(cell);
+			return;
+		}
+		visited.add(cell);
+		for(BoardCell neighbor : getAdjList(cell.GetRow(), cell.GetColumn())) {
+			if (!visited.contains(neighbor)) calcTargetsHelper(neighbor, steps - 1, new HashSet<BoardCell>(visited));
+		}
 	}
 	
 }

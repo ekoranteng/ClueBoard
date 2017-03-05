@@ -267,6 +267,7 @@ public class CR_BoardAdjTargetTests {
 		assertTrue(targets.contains(board.getCellAt(18, 15)));
 		assertTrue(targets.contains(board.getCellAt(16, 17)));
 		assertTrue(targets.contains(board.getCellAt(16, 15)));
+		
 	}
 	
 	// Test getting into room, doesn't require all steps
