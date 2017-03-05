@@ -16,6 +16,7 @@ public class Board {
 	private static Board theInstance = new Board();
 	public static final int MAX_BOARD_SIZE = 100;
 	private BoardCell [][] board;
+	
 	private Map<Character,String> legend;
 	private Map<BoardCell, Set<BoardCell>> adjMatrix;
 	private Set<BoardCell> targets;
@@ -151,17 +152,50 @@ public class Board {
 	}
 	public void calcAdjacencies(){
 		adjMatrix = new HashMap<BoardCell, Set<BoardCell>>();
-		for(BoardCell[] cellrow : board) {
-			for(BoardCell cell : cellrow) {
-				adjMatrix.put(cell, new HashSet<BoardCell>());
+		for(int i = 0; i < numRows; i++) {
+			for(int j = 0; j < numColumns; j++) {
+				BoardCell cell = board[i][j];
+				Set<BoardCell> neighbors = new HashSet<BoardCell>();
+				switch(cell.getDoorDirection()) {
+				case NONE:
+					if (cell.getInitial() != 'W') break;
+					if ((i - 1) >= 0) {
+						if(board[i - 1][j].getInitial() == 'W' || board[i - 1][j].getDoorDirection() == DoorDirection.DOWN) 
+							neighbors.add(board[i-1][j]);
+					}
+					if ((i + 1) < numRows) {
+						if(board[i + 1][j].getInitial() == 'W' || board[i + 1][j].getDoorDirection() == DoorDirection.UP) 
+							neighbors.add(board[i+1][j]);
+					}
+					if ((j - 1) >= 0) {
+						if(board[i][j-1].getInitial() == 'W' || board[i][j - 1].getDoorDirection() == DoorDirection.RIGHT) 
+							neighbors.add(board[i][j - 1]);
+					}
+					if ((j + 1) <  numColumns ) {
+						if(board[i][j+1].getInitial() == 'W' || board[i][j + 1].getDoorDirection() == DoorDirection.LEFT) 
+							neighbors.add(board[i][j + 1]);
+					}
+					break;
+				case UP:
+					neighbors.add(board[i-1][j]);
+					break;
+				case DOWN:
+					neighbors.add(board[i+1][j]);
+					break;
+				case LEFT:
+					neighbors.add(board[i][j-1]);
+					break;
+				case RIGHT:
+					neighbors.add(board[i][j+1]);
+					break;
+				}
+				adjMatrix.put(cell, neighbors);
 			}
 		}
 	}
 	public Set<BoardCell> getAdjList(int i, int j) {
-		// TODO Auto-generated method stub
-		return null;
+		return adjMatrix.get(board[i][j]);
 	}
-
 	public Set<BoardCell> getTargets() {
 		// TODO Auto-generated method stub
 		return null;
