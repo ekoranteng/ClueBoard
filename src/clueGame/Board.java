@@ -89,6 +89,7 @@ public class Board {
 			in.nextLine();
 			numRows++;
 		}
+		// O HI! we made a branch on a previous commit. Is it going to work?
 		in.close();
 		board = new BoardCell[numRows][numColumns];
 		FileReader reader = null;
