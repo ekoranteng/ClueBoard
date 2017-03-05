@@ -27,6 +27,7 @@ public class Board {
 	}
 	
 	public void initialize() {
+		targets=new HashSet<BoardCell>();
 		try {
 			loadRoomConfig();
 		} catch (BadConfigFormatException e) {
@@ -160,12 +161,12 @@ public class Board {
 	}
 	public Set<BoardCell> getAdjList(int i, int j) {
 		// TODO Auto-generated method stub
-		return null;
+		return adjMatrix.get(board[i][j]);
 	}
 
 	public Set<BoardCell> getTargets() {
 		// TODO Auto-generated method stub
-		return null;
+		return targets;
 	}
 
 	public void calcTargets(int i, int j, int k) {
