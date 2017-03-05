@@ -1,5 +1,2 @@
-*.class
-*.classpath
 *.project
-*.DS_Store
-bin/.gitignore
+*.classpath
